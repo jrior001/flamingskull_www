@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<!-- skel-baseline v3.0.0 | (c) n33 | skel.io | MIT licensed -->
+<html>
+	<head>
+		<title>TheFlamingSkull.com</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body id="top">
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="http://TheFlamingSkull.com">The Flaming Skull</a></h1>
+				<a href="#nav">Menu</a>
+			</header>
+
+		<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="https://github.com/jrior001">Github</a></li>
+					<li><a href="https://webchat.freenode.net/?channels=#zenfone2,#oppo-msm8974">IRC</a></li>
+                </ul>
+                <ul class="actions vertical">
+					<li><a href="index.html" class="button special fit">Devices</a></li>
+				</ul>
+			</nav>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h2>Devices</h2>
+				<ul class="actions">
+					<li><a href="zenfone2.html" class="button">Asus Zenfone 2</a></li>
+					<li><a href="oppoN3.html" class="button">Oppo N3</a></li>
+					<li><a href="espressovzw.html" class="button">Samsung Tab2 VZW LTE</a></li>
+					<li><a href="evita.html" class="button special">HTC One XL</a></li>
+					<li><a href="ace.html" class="button">HTC Desire HD/S</a></li>
+				</ul>
+			</section>
+
+		<!-- Main -->
+			<div id="main" class="container">
+
+				<hr class="major" />
+
+					<!-- Download -->
+					<h2 id="download">Projects</h2>
+					<div class="row 200%">
+						<div class="6u 12u$(medium)">
+
+								<!-- EVITA X -->
+								<h2>Evita-X</h2>
+								<h4><a href="http://forum.xda-developers.com/one-x-att/orig-development/mod-cm-12-1-unofficial-partition-mod-t3272782">XDA THREAD</a></h4>
+								<p>
+								<b><h4>What is Evita X ?</h4></b>
+								With 5.0+ ROM's the switch from dalvik to ART has greatly increased the size of installed apps. We have met the limit of our old
+								small /data partition's fixed size. This has made it impossible for users to keep more than 15 or so extra apps installed.
+								Modern devices have all migrated to a /data/media format where /data and internal storage share 
+								one partition to allow them both to share space as needed. <br><br>
+								
+								The EvitaX project brings a modified partition scheme to alleviate this issue and then some. First, we will repurpose our
+								internal sdcard partition ( labeled "by-name/fat", ~11GB/~24GB depending on varient ) as the new /data partiton. Here we will
+								emulate a /data/media style storage structure to allow /data and /sdcard to share the larger partition. This sacrifices some
+								space for /data but restores usability. Second, we will repurpose the old, now unused, /data partition (labeled "by-name/userdata"
+								 ~2.5GB) as the	new /system partition. This allows for full build time dex-opt of all system apps. This means 80-90 less apps to
+								optimize on boot after flashing an update.<br><br>
+								
+								This change is reversible, detaisl to follow in recovery section.
+								</p>
+								<b><h4>What ROM's support this ?</h4></b>
+								
+								Currently CM 12.1 builds listed below support this modified partition scheme. Take notice these builds are labeld EvitaX. These builds
+								will only install on devices with the moddified partition layout. A custom recovery is required to support this as well. <br>
+								<br>
+								Developers can implement these changes in thier own builds by picking <a href="http://review.cyanogenmod.org/#/c/124797/">THIS</a>a> change
+								for thier own ROMS.  strongly encourage device maintainers to ensure TARGET_OTA_ASSERT_DEVICE is supported by their build environment. 
+								This adds an assert for the EvitaX device name to the top of updater-script.<br>
+								<br>
+								
+								<b><h4>How Do I Use This ? (Or revert back ?)</h4></b>
+								THIS REQUIRES MANUALLY CHANGING PARTITON FILE SYSTEM FORMATS<br>
+								ALL DATA WILL BE LOST, THERE IS NO EASY MIGRATION FROM STANDARD CM 12.1 NIGHTLIES
+								<br><br>
+								* Flash the custom TWRP build below. This custom build supports both partition types. We will utilize the old, now unused, /system partition 
+								(labeled "by-name/system" ~1.5 GB) as our conversion check. <br>
+								* Backup all of the files on internal storage (/sdcard) to your computer or they will be lost.<br>
+								* In recovery, wipe /system using the "Advanced wipe" menu. Select "system" and use the "Change File System" option to convert /system to FAT.<br>
+								* Reboot to recovery. This gives recovery the chance to detect the new format and load the new partition scheme fstab. To verify the mode in 
+								which your device has booted recovery, use adb: adb shell getprop ro.product.device<br>
+								* Manually wipe /system, /data, /cache <br>
+								* Use adb or MTP to transfer ROM + gapps(if desired) to device and flash as normal. <br>
+								<br>
+								You can now use your device as usual. When you format (wipe) partitions in the future, there’s nothing special to remember.
+								You can use the standard Wipe screen (not Advanced Wipe) and your partitions will retain their filesystems.
+								<br>
+								<br>
+								TO REVERT TO STOCK LAYOUT:<BR>
+								The modified recovery mounts the old "by-name/system" partition as sdcard1 for easy revert.
+								* reboot to recovery<br>
+								* In recovery, wipe /system using the "Advanced wipe" menu. Select "Sdcard1" and use the "Change File System" option to convert /Sdcard1 to EXT4.<br>
+								* reboot to recovery, the standard fstab will load.<br>
+								* Wipe all partitions as instructed above and proceed to flash desired ROM/gapps.<br> 
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Project</th>
+												<th>Version</th>
+												<th>Link</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>CM 12.1 Evita-X</td>
+												<td>12/17/2015</td>
+												<td><a href="downloads/evitaX/cm-12.1-20151217-UNOFFICIAL-evitaX.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>CM 12.1 Evita-X</td>
+												<td>12/30/2015</td>
+												<td><a href="downloads/evitaX/cm-12.1-20151230-UNOFFICIAL-evitaX.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>TWRP for Evita-X</td>
+												<td>2.8.7.1</td>
+												<td><a href="downloads/evitaX/TWRP-evitaX-2.8.7.1-unofficial.img">Download</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+						<div class="6u 12u$(medium)">
+
+							
+								<!-- Torched Kernel -->
+								<h2>Torched Kernel</h2>
+								<h4><a href="http://forum.xda-developers.com/showthread.php?t=2477532">XDA THREAD</a></h4>
+								<p>
+								Kernel for AOSP roms only!!<br>
+								Based on CM's current 3.4 kernel<br>
+								Compiled with Christopher83's custom tweaked GCC 4.9.3 linaro toolchain<br>
+								This should work on all 5.0 AOSP roms for EVITA<br>
+								<br>
+								FEATURES:<br>
+								* Interactive/BFQ by default<br>
+								* 1.7ghz OC available (1.5ghz is stock/default setting) - REMOVED IN noOC/noVC VERSION<br>
+								* 3 stage 2D/3D GPU OC avaialable (200/400 stock/default setting, 320/512 max) - REMOVED IN noOC/noVC VERSION<br>
+								* Voltage Control -as implemented by Faux123 - REMOVED IN noOC/noVC VERSION<br>
+								* QCOM Vmin Bypass (allows CPU to follow stock voltages tables rather than qcom enforced minimum voltage for errata cases - REMOVED IN noOC/noVC VERSION<br>
+								* 3-stage kernel based thermal control from Showp1984<br>
+								* S2W/DT2W/POCKET DETECTION from flar2 (off by default)<br>
+								* BLN (button light notification) from tbalden, blinks hardkey backlight when there are pending notifications (off by default)<br>
+								* Dynamic Fsync from Faux 123<br>
+								* Additional Gov/Sched options<br>
+								* USB FAST CHARGE<br>
+								* Faux sound control patches from Faux123<br>
+								* Advanced TCP Congestion Control Choices<br>
+								* Bunches of minor optimizations from all over github.<br>
+								* My source is always current with my releases and possibly any new work, feel free to check in on it anytime for the full list of tweaks and thier sources.<br>
+								</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Project</th>
+												<th>Version</th>
+												<th>Link</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Torched-KK Final</td>
+												<td>B6</td>
+												<td><a href="downloads/evita/Torched/Torched-KK.Build6.FINAL-F2FS.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>Torched-KK Final-noOC-noOV</td>
+												<td>B6</td>
+												<td><a href="downloads/evita/Torched/Torched-KK-noOC-noVC.Build6.FINAL-F2FS.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>Torched LP 2.1</td>
+												<td>????</td>
+												<td><a href="downloads/evita/Torched/Torched-LP.Build2.1-F2FS.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>Torched LP 2.1-noOC-noOV</td>
+												<td>????</td>
+												<td><a href="downloads/evita/Torched/Torched-LP-noOC-noVC.Build2.1-F2FS.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>Torched LP 2.6</td>
+												<td>1/4/2016</td>
+												<td><a href="downloads/evita/Torched/Torched-LP.Build2.6.zip">Download</a></td>
+											</tr>
+											<tr>
+												<td>Torched LP 2.6-noOC-noOV</td>
+												<td>1/4/2016</td>
+												<td><a href="downloads/evita/Torched/Torched-LP-noOC-noVC.Build2.6.zip">Download</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+
+                <hr class="major" />
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Website</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
